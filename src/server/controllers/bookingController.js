@@ -1,5 +1,5 @@
 import { Booking, Property } from "../../db/db.js";
-import { BookingEmailService } from "../services/emailService";
+import { BookingEmailService } from "../services/emailService.js";
 
 // Create a property booking
 export async function createBooking(req, res) {
