@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { User } from "../../db/db";
+import { User } from "../../db/db.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "househunt_super_secret_key_13579";
 
