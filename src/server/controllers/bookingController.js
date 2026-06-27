@@ -1,4 +1,4 @@
-import { Booking, Property } from "../../db/db";
+import { Booking, Property } from "../../db/db.js";
 import { BookingEmailService } from "../services/emailService";
 
 // Create a property booking
