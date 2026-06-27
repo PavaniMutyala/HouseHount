@@ -1,4 +1,4 @@
-import { User, Property, Booking, PlatformStatistics } from "../../db/db";
+import { User, Property, Booking, PlatformStatistics } from "../../db/db.js";
 
 // Fetch platform metrics & statistics
 export async function getStats(req, res) {
