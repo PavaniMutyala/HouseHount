@@ -1,4 +1,4 @@
-import { Favorite, Property } from "../../db/db";
+import { Favorite, Property } from "../../db/db.js";
 
 // Toggle favorite status of a property
 export async function toggleFavorite(req, res) {
