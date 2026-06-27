@@ -136,6 +136,7 @@ HouseHount
 └── .env
 
 
+
 ---
 
 # ⚙️ Installation & Setup
@@ -146,16 +147,14 @@ HouseHount
 git clone https://github.com/PavaniMutyala/HouseHount.git
 
 Move into project directory:
-
 cd HouseHount
-
 Install dependencies:
-
 npm install
+
+---
 🔐 Environment Variables
 
 Create a .env file:
-
 PORT=5000
 
 MONGO_URI=your_mongodb_connection_string
@@ -165,44 +164,56 @@ JWT_SECRET=your_secret_key
 EMAIL_USER=your_email
 
 EMAIL_PASSWORD=your_password
+---
+
 ▶️ Run Application
 Start Development Server
 
 Frontend + Backend:
-
 npm run dev
-
 or
 
 Backend:
-
 npm start
+
+
 🔗 API Endpoints
 Authentication
-Method	Endpoint
-POST	/api/auth/register
-POST	/api/auth/login
-GET	/api/auth/profile
+| Method | Endpoint           |
+| ------ | ------------------ |
+| POST   | /api/auth/register |
+| POST   | /api/auth/login    |
+| GET    | /api/auth/profile  |
+
 Properties
-Method	Endpoint
-GET	/api/properties
-POST	/api/properties
-GET	/api/properties/:id
-PUT	/api/properties/:id
-DELETE	/api/properties/:id
+| Method | Endpoint            |
+| ------ | ------------------- |
+| GET    | /api/properties     |
+| POST   | /api/properties     |
+| GET    | /api/properties/:id |
+| PUT    | /api/properties/:id |
+| DELETE | /api/properties/:id |
+
+
 Bookings
-Method	Endpoint
-POST	/api/bookings
-GET	/api/bookings
-PUT	/api/bookings/:id/status
+| Method | Endpoint                 |
+| ------ | ------------------------ |
+| POST   | /api/bookings            |
+| GET    | /api/bookings            |
+| PUT    | /api/bookings/:id/status |
+
 Favorites
-Method	Endpoint
-POST	/api/favorites
-GET	/api/favorites
+| Method | Endpoint       |
+| ------ | -------------- |
+| POST   | /api/favorites |
+| GET    | /api/favorites |
+
 Reviews
-Method	Endpoint
-POST	/api/reviews
-DELETE	/api/reviews/:id
+| Method | Endpoint         |
+| ------ | ---------------- |
+| POST   | /api/reviews     |
+| DELETE | /api/reviews/:id |
+
 🔒 Security Features
 JWT authentication
 Protected routes
@@ -233,3 +244,11 @@ Pavani Mutyala
 
 GitHub:
 https://github.com/PavaniMutyala
+⭐ Support
+
+If you like this project, consider giving it a ⭐ on GitHub.
+
+
+
+
+
