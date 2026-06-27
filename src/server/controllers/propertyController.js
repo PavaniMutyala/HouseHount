@@ -1,4 +1,4 @@
-import { Property, Review } from "../../db/db";
+import { Property, Review } from "../../db/db.js";
 
 // Create a new property listing
 export async function createProperty(req, res) {
