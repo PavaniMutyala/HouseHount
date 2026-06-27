@@ -1,20 +1,117 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# 🏠 HouseHount - Real Estate Rental Platform
 
-# Run and deploy your AI Studio app
+![HouseHount Banner](https://your-image-link-here)
 
-This contains everything you need to run your app locally.
+## 🌐 Live Demo
 
-View your app in AI Studio: https://ai.studio/apps/91a3a119-c600-4b01-a34a-d8ee075954b4
+🚀 Deployed Application:
 
-## Run Locally
+https://househount.onrender.com/
 
-**Prerequisites:**  Node.js
+---
+
+## 📌 About The Project
+
+HouseHount is a full-stack real estate rental platform built using the MERN stack.
+
+The application allows users to discover properties, create accounts, manage properties, book properties, save favorites, and interact through reviews.
+
+It provides a seamless experience for both users and administrators with authentication and role-based access control.
+
+---
+
+# 🚀 Features
+
+## 👤 User Authentication
+
+- User registration
+- User login
+- JWT-based authentication
+- Secure password hashing
+- User profile management
+- Change password functionality
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🏘️ Property Management
+
+Users can:
+
+- View available properties
+- Add new properties
+- Update property details
+- Delete properties
+- View their listed properties
+
+
+## 📅 Booking System
+
+- Create property bookings
+- View personal bookings
+- Manage received booking requests
+- Update booking status
+
+
+## ❤️ Favorites
+
+- Add properties to favorites
+- Remove favorites
+- View saved properties
+
+
+## ⭐ Reviews
+
+- Add reviews for properties
+- Delete reviews
+
+
+## 👑 Admin Dashboard
+
+Admin features:
+
+- View statistics
+- Manage users
+- Manage bookings
+- Approve/reject properties
+- Monitor platform activities
+
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+- React.js
+- JavaScript
+- HTML5
+- CSS3
+- Tailwind CSS
+- React Router
+
+
+## Backend
+
+- Node.js
+- Express.js
+
+
+## Database
+
+- MongoDB
+- Mongoose
+
+
+## Authentication
+
+- JWT Authentication
+- bcrypt password encryption
+
+
+## Deployment
+
+- Render
+
+
+---
+
+# 📂 Project Structure
