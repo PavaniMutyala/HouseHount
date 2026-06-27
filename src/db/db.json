@@ -9,7 +9,6 @@
       "role": "admin",
       "profileImage": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80",
       "address": "742 Evergreen Terrace, Springfield, IL",
-      "gender": "female",
       "createdDate": "2026-01-15T08:30:00.000Z"
     },
     {
@@ -21,7 +20,6 @@
       "role": "user",
       "profileImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
       "address": "102 Main St, Boston, MA",
-      "gender": "male",
       "createdDate": "2026-02-10T11:15:00.000Z"
     },
     {
@@ -33,7 +31,6 @@
       "role": "user",
       "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
       "address": "456 Oak Lane, Austin, TX",
-      "gender": "female",
       "createdDate": "2026-03-01T14:20:00.000Z"
     },
     {
@@ -45,7 +42,6 @@
       "profileImage": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
       "address": "India",
       "id": "user-1782478337852yus6",
-      "gender": "female",
       "createdDate": "2026-06-26T12:52:17.852Z"
     }
   ],
@@ -306,16 +302,6 @@
       "rating": 5,
       "comment": "An absolutely breathtaking experience. Very neat and close to the main road. The host was incredibly responsive and accommodated all of our special requests. Highly recommend!",
       "date": "2026-05-25T14:30:00.000Z"
-    }
-  ],
-  "notifications": [
-    {
-      "id": "notif-seed-1",
-      "type": "system",
-      "title": "Welcome to HouseHunt!",
-      "message": "The platform is fully configured and ready for smart rentals management.",
-      "read": false,
-      "createdDate": "2026-06-25T10:00:00.000Z"
     }
   ]
 }

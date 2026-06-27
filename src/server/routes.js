@@ -110,23 +110,4 @@ router.delete(
   adminController.deleteUser,
 );
 
-router.get(
-  "/admin/notifications",
-  authenticateToken,
-  requireAdmin,
-  adminController.getNotifications,
-);
-router.put(
-  "/admin/notifications/:id/read",
-  authenticateToken,
-  requireAdmin,
-  adminController.markNotificationRead,
-);
-router.delete(
-  "/admin/notifications",
-  authenticateToken,
-  requireAdmin,
-  adminController.clearAllNotifications,
-);
-
 export default router;

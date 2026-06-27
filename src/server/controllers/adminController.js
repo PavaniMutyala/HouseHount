@@ -1,4 +1,4 @@
-import { User, Property, Booking, PlatformStatistics, Notification } from "../../db/db";
+import { User, Property, Booking, PlatformStatistics } from "../../db/db";
 
 // Fetch platform metrics & statistics
 export async function getStats(req, res) {
@@ -117,45 +117,5 @@ export async function deleteUser(req, res) {
     return res
       .status(500)
       .json({ message: error.message || "Server error deleting user." });
-  }
-}
-
-// Get admin notifications
-export async function getNotifications(req, res) {
-  try {
-    const notifications = await Notification.find();
-    return res.json({ notifications });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: error.message || "Server error loading notifications." });
-  }
-}
-
-// Mark a notification as read
-export async function markNotificationRead(req, res) {
-  try {
-    const { id } = req.params;
-    const updated = await Notification.findByIdAndUpdate(id, { read: true });
-    if (!updated) {
-      return res.status(404).json({ message: "Notification not found." });
-    }
-    return res.json({ message: "Notification marked as read.", notification: updated });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: error.message || "Server error updating notification." });
-  }
-}
-
-// Clear all notifications
-export async function clearAllNotifications(req, res) {
-  try {
-    await Notification.deleteMany();
-    return res.json({ message: "All notifications cleared successfully." });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: error.message || "Server error clearing notifications." });
   }
 }

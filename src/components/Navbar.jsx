@@ -10,7 +10,6 @@ import {
   LogOut,
   PlusCircle,
   ShieldAlert,
-  Bell,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -18,72 +17,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const [notifOpen, setNotifOpen] = useState(false);
-  const [notifications, setNotifications] = useState([]);
-
-  const fetchNotifications = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-      const res = await fetch("/api/admin/notifications", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setNotifications(data.notifications || []);
-      }
-    } catch (err) {
-      console.error("Error fetching notifications:", err);
-    }
-  };
-
-  React.useEffect(() => {
-    if (user && user.role === "admin") {
-      fetchNotifications();
-      const interval = setInterval(fetchNotifications, 12000);
-      return () => clearInterval(interval);
-    } else {
-      setNotifications([]);
-    }
-  }, [user]);
-
-  const markAsRead = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`/api/admin/notifications/${id}/read`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (res.ok) {
-        setNotifications((prev) =>
-          prev.map((n) => (n.id === id ? { ...n, read: true } : n))
-        );
-      }
-    } catch (err) {
-      console.error("Error marking read:", err);
-    }
-  };
-
-  const clearAll = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch("/api/admin/notifications", {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (res.ok) {
-        setNotifications([]);
-      }
-    } catch (err) {
-      console.error("Error clearing notifications:", err);
-    }
-  };
 
   const isActive = (path) => location.pathname === path;
 
@@ -155,67 +88,6 @@ export default function Navbar() {
 
           {/* User Section (Desktop) */}
           <div className="hidden md:flex items-center gap-4">
-            {/* Admin-only Notifications Bell */}
-            {user && user.role === "admin" && (
-              <div className="relative">
-                <button
-                  onClick={() => setNotifOpen(!notifOpen)}
-                  className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all relative cursor-pointer"
-                  title="Admin Notifications"
-                >
-                  <Bell className="w-5 h-5" />
-                  {notifications.some(n => !n.read) && (
-                    <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-                  )}
-                </button>
-
-                {/* Notifications Dropdown Panel */}
-                {notifOpen && (
-                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden z-50">
-                    <div className="p-3 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-                      <span className="text-xs font-bold text-slate-800">Admin Alerts</span>
-                      {notifications.length > 0 && (
-                        <button
-                          onClick={clearAll}
-                          className="text-[10px] text-rose-600 hover:underline font-bold cursor-pointer"
-                        >
-                          Clear All
-                        </button>
-                      )}
-                    </div>
-                    <div className="max-h-72 overflow-y-auto divide-y divide-slate-100">
-                      {notifications.length === 0 ? (
-                        <div className="p-4 text-center text-slate-400 text-xs">
-                          No alerts right now.
-                        </div>
-                      ) : (
-                        notifications.map((notif) => (
-                          <div
-                            key={notif.id}
-                            onClick={() => markAsRead(notif.id)}
-                            className={`p-3 text-left transition-colors cursor-pointer hover:bg-slate-50 ${
-                              !notif.read ? "bg-blue-50/50" : ""
-                            }`}
-                          >
-                            <div className="flex justify-between items-start gap-1">
-                              <span className="text-xs font-bold text-slate-900">{notif.title}</span>
-                              {!notif.read && (
-                                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1 shrink-0" />
-                              )}
-                            </div>
-                            <p className="text-[11px] text-slate-600 mt-0.5 leading-snug">{notif.message}</p>
-                            <span className="text-[9px] text-slate-400 block mt-1">
-                              {new Date(notif.createdDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </span>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
             {user ? (
               <div className="flex items-center gap-4">
                 <Link
@@ -299,48 +171,6 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
-
-          {user && user.role === "admin" && (
-            <div className="border-t border-slate-100 pt-3">
-              <div className="flex justify-between items-center px-4 mb-2">
-                <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <Bell className="w-4 h-4 text-blue-600 animate-pulse" />
-                  <span>Admin Alerts ({notifications.filter(n => !n.read).length})</span>
-                </span>
-                {notifications.length > 0 && (
-                  <button
-                    onClick={clearAll}
-                    className="text-[10px] text-rose-600 hover:underline font-bold cursor-pointer"
-                  >
-                    Clear All
-                  </button>
-                )}
-              </div>
-              <div className="max-h-48 overflow-y-auto space-y-1.5 px-2">
-                {notifications.length === 0 ? (
-                  <p className="text-center text-slate-400 text-xs py-2">No alerts right now.</p>
-                ) : (
-                  notifications.map((notif) => (
-                    <div
-                      key={notif.id}
-                      onClick={() => markAsRead(notif.id)}
-                      className={`p-2.5 rounded-xl text-left transition-colors cursor-pointer ${
-                        !notif.read ? "bg-blue-50/70 border border-blue-100" : "bg-slate-50 border border-slate-100"
-                      }`}
-                    >
-                      <div className="flex justify-between items-start">
-                        <span className="text-xs font-bold text-slate-900 leading-tight">{notif.title}</span>
-                        {!notif.read && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1 shrink-0" />
-                        )}
-                      </div>
-                      <p className="text-[10px] text-slate-600 mt-0.5 leading-snug">{notif.message}</p>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          )}
 
           <div className="border-t border-slate-100 pt-4">
             {user ? (

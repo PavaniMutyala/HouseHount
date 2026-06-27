@@ -1,4 +1,4 @@
-import { Booking, Property, Notification } from "../../db/db";
+import { Booking, Property } from "../../db/db";
 import { BookingEmailService } from "../services/emailService";
 
 // Create a property booking
@@ -60,13 +60,6 @@ export async function createBooking(req, res) {
     }).catch((err) => {
       console.error("Error sending automated booking request emails:", err);
     });
-
-    // Create admin notification
-    await Notification.create({
-      type: "booking",
-      title: "New Booking Requested",
-      message: `${req.user.name || "Tenant"} requested a lease on "${property.title}" for move-in ${moveInDate}.`
-    }).catch(err => console.error("Error creating booking notification:", err));
 
     return res.status(201).json({
       message: "Booking request sent successfully! Owner will review it.",

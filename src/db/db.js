@@ -312,16 +312,6 @@ const INITIAL_DATABASE = {
       date: new Date("2026-05-25T14:30:00Z").toISOString(),
     },
   ],
-  notifications: [
-    {
-      id: "notif-seed-1",
-      type: "system",
-      title: "Welcome to HouseHunt!",
-      message: "The platform is fully configured and ready for smart rentals management.",
-      read: false,
-      createdDate: new Date("2026-06-25T10:00:00Z").toISOString()
-    }
-  ],
 };
 
 // Check if MongoDB should be used (MERN Stack support)
@@ -337,15 +327,6 @@ const MongoUserSchema = new Schema({
   role: { type: String, enum: ["user", "admin"], default: "user" },
   profileImage: { type: String, default: "" },
   address: { type: String, default: "" },
-  gender: { type: String, enum: ["male", "female", "other"], default: "other" },
-  createdDate: { type: String, default: () => new Date().toISOString() },
-});
-
-const MongoNotificationSchema = new Schema({
-  type: { type: String, default: "system" },
-  title: { type: String, required: true },
-  message: { type: String, required: true },
-  read: { type: Boolean, default: false },
   createdDate: { type: String, default: () => new Date().toISOString() },
 });
 
@@ -412,8 +393,6 @@ export const MongoFavorite =
   mongoose.models.Favorite || mongoose.model("Favorite", MongoFavoriteSchema);
 export const MongoReview =
   mongoose.models.Review || mongoose.model("Review", MongoReviewSchema);
-export const MongoNotification =
-  mongoose.models.Notification || mongoose.model("Notification", MongoNotificationSchema);
 
 // Mapper utility for Mongoose -> JSON compatibility
 function mapDoc(doc) {
@@ -576,7 +555,6 @@ class DatabaseManager {
             bookings: data.bookings || [],
             favorites: data.favorites || [],
             reviews: data.reviews || [],
-            notifications: data.notifications || [],
           };
         } catch {
           // If file not found or corrupted, write the initial seed database
@@ -1474,75 +1452,5 @@ export class PlatformStatistics {
       citiesDistribution,
       reviewsRatingMap,
     };
-  }
-}
-
-export class Notification {
-  static async find(query = {}) {
-    if (useMongo) {
-      const docs = await MongoNotification.find(query).sort({ createdDate: -1 }).exec();
-      return docs.map(d => mapDoc(d));
-    }
-    const db = await dbManager.init();
-    if (!db.notifications) db.notifications = [];
-    let results = [...db.notifications];
-    if (query && typeof query === "object") {
-      const keys = Object.keys(query);
-      results = results.filter((n) => keys.every((k) => n[k] === query[k]));
-    }
-    return results.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
-  }
-
-  static async create(notifData) {
-    if (useMongo) {
-      const n = new MongoNotification({
-        ...notifData,
-        createdDate: new Date().toISOString(),
-      });
-      await n.save();
-      return mapDoc(n);
-    }
-    const db = await dbManager.init();
-    if (!db.notifications) db.notifications = [];
-    const newNotif = {
-      ...notifData,
-      id: "notif-" + Date.now() + Math.random().toString(36).substring(2, 6),
-      read: false,
-      createdDate: new Date().toISOString(),
-    };
-    db.notifications.push(newNotif);
-    await dbManager.save(db);
-    return newNotif;
-  }
-
-  static async findByIdAndUpdate(id, update) {
-    if (useMongo) {
-      try {
-        const doc = await MongoNotification.findByIdAndUpdate(id, update, {
-          new: true,
-        }).exec();
-        return doc ? mapDoc(doc) : null;
-      } catch {
-        return null;
-      }
-    }
-    const db = await dbManager.init();
-    if (!db.notifications) db.notifications = [];
-    const index = db.notifications.findIndex((n) => n.id === id);
-    if (index === -1) return null;
-    db.notifications[index] = { ...db.notifications[index], ...update };
-    await dbManager.save(db);
-    return db.notifications[index];
-  }
-
-  static async deleteMany(query = {}) {
-    if (useMongo) {
-      await MongoNotification.deleteMany(query).exec();
-      return true;
-    }
-    const db = await dbManager.init();
-    db.notifications = [];
-    await dbManager.save(db);
-    return true;
   }
 }

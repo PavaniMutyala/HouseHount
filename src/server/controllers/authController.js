@@ -1,13 +1,13 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { User, Notification } from "../../db/db";
+import { User } from "../../db/db";
 
 const JWT_SECRET = process.env.JWT_SECRET || "househunt_super_secret_key_13579";
 
 // Register User
 export async function register(req, res) {
   try {
-    const { name, email, phone, password, role, address, profileImage, gender } =
+    const { name, email, phone, password, role, address, profileImage } =
       req.body;
 
     if (!name || !email || !phone || !password) {
@@ -46,18 +46,6 @@ export async function register(req, res) {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    // Dynamic profile image depending on gender selection (Male / Female / Other)
-    let finalProfileImage = profileImage;
-    if (!finalProfileImage) {
-      if (gender === "male") {
-        finalProfileImage = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80";
-      } else if (gender === "female") {
-        finalProfileImage = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80";
-      } else {
-        finalProfileImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80";
-      }
-    }
-
     // Create user
     const newUser = await User.create({
       name,
@@ -65,17 +53,11 @@ export async function register(req, res) {
       phone,
       passwordHash,
       role: role === "admin" ? "admin" : "user", // Defaults to user, restrict admin creation in prod if needed
-      profileImage: finalProfileImage,
-      gender: gender || "other",
+      profileImage:
+        profileImage ||
+        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
       address: address || "",
     });
-
-    // Create admin notification
-    await Notification.create({
-      type: "registration",
-      title: "New User Registered",
-      message: `${name} (${email}) registered as a ${role === "admin" ? "Platform Admin" : "Standard User"}.`
-    }).catch(err => console.error("Error creating registration notification:", err));
 
     const { passwordHash: _, ...userSafe } = newUser;
 
@@ -159,7 +141,7 @@ export async function updateProfile(req, res) {
       return res.status(401).json({ message: "Unauthorized." });
     }
 
-    const { name, phone, address, profileImage, gender } = req.body;
+    const { name, phone, address, profileImage } = req.body;
 
     if (!name || !phone) {
       return res
@@ -167,29 +149,11 @@ export async function updateProfile(req, res) {
         .json({ message: "Name and phone fields cannot be empty." });
     }
 
-    // Dynamic profile image depending on updated gender selection (Male / Female / Other)
-    let finalProfileImage = profileImage;
-    // If user updated their gender and did not provide an override profileImage, or if they have no profileImage,
-    // we set (fix) their profileImage automatically based on their updated gender!
-    if (!finalProfileImage || gender !== req.user.gender) {
-      if (gender === "male") {
-        finalProfileImage = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80";
-      } else if (gender === "female") {
-        finalProfileImage = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80";
-      } else if (gender === "other") {
-        finalProfileImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80";
-      }
-    }
-    if (!finalProfileImage) {
-      finalProfileImage = req.user.profileImage;
-    }
-
     const updated = await User.findByIdAndUpdate(req.user.id, {
       name,
       phone,
       address: address || "",
-      gender: gender || req.user.gender || "other",
-      profileImage: finalProfileImage,
+      profileImage: profileImage || req.user.profileImage,
     });
 
     if (!updated) {

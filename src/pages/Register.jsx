@@ -12,7 +12,6 @@ export default function Register() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
-  const [gender, setGender] = useState("female");
   const [address, setAddress] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -51,7 +50,6 @@ export default function Register() {
       role,
       address,
       profileImage: profileImage || undefined,
-      gender,
     });
     setLoading(false);
 
@@ -175,33 +173,6 @@ export default function Register() {
                 <Lock className="w-4 h-4" />
                 <span>Admin Hub</span>
               </button>
-            </div>
-          </div>
-
-          {/* Gender Selection */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-slate-600 font-medium">
-              Gender (Profile picture will be optimized automatically)
-            </label>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { value: "female", label: "Female 👩" },
-                { value: "male", label: "Male 👨" },
-                { value: "other", label: "Other 👤" }
-              ].map((g) => (
-                <button
-                  key={g.value}
-                  type="button"
-                  onClick={() => setGender(g.value)}
-                  className={`py-2 px-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer text-center ${
-                    gender === g.value
-                      ? "border-blue-600 bg-blue-50 text-blue-700 font-bold"
-                      : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                  }`}
-                >
-                  {g.label}
-                </button>
-              ))}
             </div>
           </div>
 

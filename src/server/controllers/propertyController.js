@@ -1,4 +1,4 @@
-import { Property, Review, Notification } from "../../db/db";
+import { Property, Review } from "../../db/db";
 
 // Create a new property listing
 export async function createProperty(req, res) {
@@ -84,13 +84,6 @@ export async function createProperty(req, res) {
       availability: true,
       status: "pending", // Listings need admin approval by default
     });
-
-    // Create admin notification
-    await Notification.create({
-      type: "property",
-      title: "New Property Listed",
-      message: `"${title}" in ${location}, ${city} was listed by ${req.user.name || "Owner"} and is pending approval.`
-    }).catch(err => console.error("Error creating property notification:", err));
 
     return res.status(201).json({
       message:

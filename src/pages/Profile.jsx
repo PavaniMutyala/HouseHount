@@ -12,7 +12,6 @@ export default function Profile() {
   const [phone, setPhone] = useState(user?.phone || "");
   const [address, setAddress] = useState(user?.address || "");
   const [profileImage, setProfileImage] = useState(user?.profileImage || "");
-  const [gender, setGender] = useState(user?.gender || "female");
   const [profileLoading, setProfileLoading] = useState(false);
 
   // Password fields
@@ -23,12 +22,6 @@ export default function Profile() {
   React.useEffect(() => {
     if (!user) {
       navigate("/login");
-    } else {
-      setName(user.name || "");
-      setPhone(user.phone || "");
-      setAddress(user.address || "");
-      setProfileImage(user.profileImage || "");
-      setGender(user.gender || "female");
     }
   }, [user]);
 
@@ -45,7 +38,6 @@ export default function Profile() {
       phone,
       address,
       profileImage: profileImage || undefined,
-      gender,
     });
     setProfileLoading(false);
   };
@@ -155,33 +147,6 @@ export default function Profile() {
                         required
                       />
                     </div>
-                  </div>
-                </div>
-
-                {/* Gender Selection */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-slate-600">
-                    Gender (Changing this automatically optimizes your default profile avatar)
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {[
-                      { value: "female", label: "Female 👩" },
-                      { value: "male", label: "Male 👨" },
-                      { value: "other", label: "Other 👤" }
-                    ].map((g) => (
-                      <button
-                        key={g.value}
-                        type="button"
-                        onClick={() => setGender(g.value)}
-                        className={`py-2 px-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer text-center ${
-                          gender === g.value
-                            ? "border-blue-600 bg-blue-50 text-blue-700 font-bold"
-                            : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                        }`}
-                      >
-                        {g.label}
-                      </button>
-                    ))}
                   </div>
                 </div>
 

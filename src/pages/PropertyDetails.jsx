@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import PropertyCard from "../components/PropertyCard";
-import ImageGallery from "../components/ImageGallery";
 
 export default function PropertyDetails() {
   const { id } = useParams();
@@ -31,6 +30,9 @@ export default function PropertyDetails() {
   const [reviews, setReviews] = useState([]);
   const [relatedProperties, setRelatedProperties] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
+
+  // Gallery active view
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   // Booking states
   const [moveInDate, setMoveInDate] = useState("");
@@ -57,6 +59,7 @@ export default function PropertyDetails() {
           setProperty(data.property);
           setReviews(data.reviews || []);
           setRelatedProperties(data.relatedProperties || []);
+          setActiveImageIndex(0);
 
           // Check if favorited
           const token = localStorage.getItem("hh_token");
@@ -226,8 +229,41 @@ export default function PropertyDetails() {
           <span>Back to listings</span>
         </Link>
 
-        {/* Premium Image Gallery Grid */}
-        <ImageGallery images={property.images} title={property.title} />
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="md:col-span-2 relative aspect-[16/10] bg-slate-100 rounded-2xl overflow-hidden shadow-sm border border-slate-100">
+            <img
+              src={
+                property.images[activeImageIndex] ||
+                "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80"
+              }
+              alt={property.title}
+              className="w-full h-full object-cover transition-all"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+
+          <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-y-auto max-h-[350px] scrollbar-thin">
+            {property.images.map((img, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveImageIndex(idx)}
+                className={`relative aspect-[4/3] rounded-xl overflow-hidden shrink-0 w-28 md:w-full border-2 transition-all ${
+                  activeImageIndex === idx
+                    ? "border-blue-600 shadow"
+                    : "border-transparent opacity-75 hover:opacity-100"
+                }`}
+              >
+                <img
+                  src={img}
+                  alt={`Thumb ${idx}`}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Details and Sidebar Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
