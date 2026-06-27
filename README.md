@@ -1,4 +1,4 @@
-# 🏠 HouseHount - Real Estate Rental Platform
+# 🏠 HouseHunt - Real Estate Rental Platform
 
 ![HouseHount Banner](https://your-image-link-here)
 
