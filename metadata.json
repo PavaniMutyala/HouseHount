@@ -1,0 +1,6 @@
+{
+  "name": "HouseHunt",
+  "description": "A premium, fully featured house rental platform for finding, booking, and managing properties.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
