@@ -1,11 +1,11 @@
 import { Router } from "express";
-import * as authController from "./controllers/authController";
-import * as propertyController from "./controllers/propertyController";
-import * as bookingController from "./controllers/bookingController";
-import * as favoriteController from "./controllers/favoriteController";
-import * as reviewController from "./controllers/reviewController";
-import * as adminController from "./controllers/adminController";
-import { authenticateToken, requireAdmin } from "./middleware/auth";
+import * as authController from "./controllers/authController.js";
+import * as propertyController from "./controllers/propertyController.js";
+import * as bookingController from "./controllers/bookingController.js";
+import * as favoriteController from "./controllers/favoriteController.js";
+import * as reviewController from "./controllers/reviewController.js";
+import * as adminController from "./controllers/adminController.js";
+import { authenticateToken, requireAdmin } from "./middleware/auth.js";
 
 const router = Router();
 
